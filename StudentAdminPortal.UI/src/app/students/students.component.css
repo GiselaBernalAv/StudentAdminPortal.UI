@@ -1,0 +1,16 @@
+table{
+  width:100%;
+}
+.searh-input{
+  outline:none;
+  border: 1px solid #CCC;
+  padding: 10px 16px;
+  border-radius: 3px;
+}
+.searh-input:active{
+  border: 1px solid #BBB
+}
+
+.search-input:focus{
+  border: 1px solid #AAA
+}
