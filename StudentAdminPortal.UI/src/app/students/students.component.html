@@ -10,9 +10,12 @@
       <input type ="text" class = "searh-input" placeholder = "Search students"
       [(ngModel)]="filterString"
       (keyup)="filterStudents()" >
+      <a routerLink="/students/Add" mat-raised-button color="primary" class="m1-1">
+         Add New Student </a>
     </div>
+
   </div>
-</div>
+
   <div class="mt-1 mat-elevation-z8">
     <table mat-table matSort [dataSource]="dataSource" >
 
@@ -69,10 +72,11 @@
       <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
     </table>
 
-    <mat-paginator [length]="100"
+    <mat-paginator [length]="80"
               [pageSize]="10"
               [pageSizeOptions]="[5, 10, 20, 100]"
               aria-label="Select page">
   </mat-paginator>
 
   </div>
+</div>

@@ -54,14 +54,26 @@ export class ViewStudentComponent implements OnInit {
       this.studentId = params.get('id');
 
       if (this.studentId) {
+        //if the router contains 'Add'
+        //new student functionality
+
+        if(this.studentId.toLowerCase()==='Add'.toLocaleLowerCase()){
+            this.isNewStudent = true;
+            this.header  ='Add New Student';
+        }else {
+          this.isNewStudent = false;
+          this.header = 'Edit Student';
+
         this.StudentService.getStudentbyId(this.studentId)
         .subscribe(
           (successResponse) => {
             this.student = successResponse;
-
             console.log(successResponse);
           }
         );
+        }
+
+
 
         this.genderService.getGenderList().subscribe(
           (successResponse) => {
@@ -77,7 +89,6 @@ export class ViewStudentComponent implements OnInit {
      this.StudentService.updateStudent(this.student.id, this.student).subscribe(
       (successResponse) => {
         console.log(successResponse);
-        console.log('its passing here');
         this.snackbar.open('Student Updated Successfully', undefined,
             {duration: 2000})
 
@@ -95,7 +106,7 @@ export class ViewStudentComponent implements OnInit {
       (successResponse) => {
         console.log(successResponse);
          this.snackbar.open('Student Deleted Successfully', undefined,
-            {duration: 2000})
+            {duration: 2000});
           setTimeout(
             ()=>{
                this.router.navigateByUrl('students');
@@ -106,5 +117,26 @@ export class ViewStudentComponent implements OnInit {
         //log it
       }
     );
+ }
+
+ onAdd():void {
+  this.StudentService.addStudent(this.student)
+  .subscribe(
+    (successResponse) => {
+      console.log(successResponse);
+      this.snackbar.open('Student Added Successfully', undefined,
+          {duration: 2000});
+          setTimeout(
+            ()=>{
+              // this.router.navigateByUrl('students');
+              //this.router.navigateByUrl(`students/${successResponse.id}`);
+              this.router.navigateByUrl('students');
+            }, 2000);
+    },
+    (errorResponse) => {
+      console.log(errorResponse);
+      //log it
+    }
+  );
  }
 }
