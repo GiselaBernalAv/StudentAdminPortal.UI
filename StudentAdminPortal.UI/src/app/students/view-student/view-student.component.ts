@@ -1,4 +1,4 @@
-import { Component, OnInit} from '@angular/core';
+import { Component, OnInit, ViewChild} from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { studentService } from '../student.service';
 import { NgForm } from '@angular/forms';
@@ -41,7 +41,7 @@ export class ViewStudentComponent implements OnInit {
 
   genderList: Gender[] = [];
 
-  //@ViewChild('studentDetailsForm') studentDetailsForm?: NgForm;
+  @ViewChild('studentDetailsForm') studentDetailsForm?: NgForm;
 
   constructor(private readonly StudentService: studentService,
       private readonly route: ActivatedRoute,
@@ -90,7 +90,8 @@ export class ViewStudentComponent implements OnInit {
   );
  }
  onUpdate(): void {
-     this.StudentService.updateStudent(this.student.id, this.student).subscribe(
+  if(this.studentDetailsForm?.form.valid){
+    this.StudentService.updateStudent(this.student.id, this.student).subscribe(
       (successResponse) => {
         console.log(successResponse);
         this.snackbar.open('Student Updated Successfully', undefined,
@@ -102,6 +103,8 @@ export class ViewStudentComponent implements OnInit {
         //log it
       }
      );
+  }
+
  }
 
  onDelete(): void {
@@ -124,7 +127,9 @@ export class ViewStudentComponent implements OnInit {
  }
 
  onAdd():void {
-  this.StudentService.addStudent(this.student)
+ if(this.studentDetailsForm?.form.valid){
+    //submit form date to api
+    this.StudentService.addStudent(this.student)
   .subscribe(
     (successResponse) => {
       console.log(successResponse);
@@ -142,6 +147,8 @@ export class ViewStudentComponent implements OnInit {
       //log it
     }
   );
+  }
+
  }
 
  uploadImage(event:any): void{
